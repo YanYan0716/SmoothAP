@@ -2,7 +2,8 @@ import tensorflow as tf
 AUTOTUNE = tf.data.experimental.AUTOTUNE
 
 # dataset
-BATCH_SIZE = 32
+IMG_DIR = './label4000.csv'
+BATCH_SIZE = 2
 IMG_SIZE = 256
 CROP_SIZE = 224
 
