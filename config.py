@@ -18,6 +18,9 @@ START_EPOCH = 0
 # optimizer
 LR = 0.01
 
+# loss
+ANNEAL = 3
+
 
 
 K_VALS = [1, 4, 16, 32]
