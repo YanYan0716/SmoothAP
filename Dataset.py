@@ -10,6 +10,7 @@ from PIL import Image
 
 
 import config
+from augment import orgAug, posAug, negAug
 
 
 def generator():
@@ -32,9 +33,12 @@ def generator():
             neg_index = np.random.randint(0, all_num)
             neg = cv2.imread(img_list[neg_index])
 
-            anchor_imgs.append(anchor[:, :, ::-1].astype(np.float32))
-            pos_imgs.append(pos[:, :, ::-1].astype(np.float32))
-            neg_imgs.append(neg[:, :, ::-1].astype(np.float32))
+            anchor = orgAug(anchor)
+            pos = posAug(pos)
+            neg = negAug(neg)
+            anchor_imgs.append(anchor)
+            pos_imgs.append(pos)
+            neg_imgs.append(neg)
 
             if len(anchor_imgs) == config.BATCH_SIZE:
                 yield tf.cast(tf.convert_to_tensor(anchor_imgs), dtype=tf.float32), \
