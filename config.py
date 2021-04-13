@@ -3,13 +3,13 @@ AUTOTUNE = tf.data.experimental.AUTOTUNE
 
 # dataset
 IMG_DIR = './label4000.csv'
-BATCH_SIZE = 2
+BATCH_SIZE = 8
 IMG_SIZE = 256
 CROP_SIZE = 224
 SAMPLE_PER_CLASS = 4
 
 # model
-EMBED_DIM = 512
+EMBED_DIM = 256
 
 # train
 MAX_EPOCH = 100
@@ -19,7 +19,8 @@ START_EPOCH = 0
 LR = 0.01
 
 # loss
-ANNEAL = 3
+ANNEAL = 0.01
+NUM_ID = 4
 
 
 
