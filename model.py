@@ -32,4 +32,4 @@ if __name__ == '__main__':
     a = np.random.normal(size=(3, 224, 224, 3))
     x = tf.convert_to_tensor(a)
     print(x.shape)
-    # net = Model()
+    net = Model()

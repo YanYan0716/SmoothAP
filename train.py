@@ -5,24 +5,34 @@ import tensorflow as tf
 import tensorflow.keras as keras
 
 import config
-from Dataset import generator
+from Dataset import generatorS
 from model import Model
 from smoothAP import smoothAP
 
 
-def train(dataset, model, loss, optimizer, scheduler):
+def train(dataset, model, criterion, optimizer, scheduler):
     print('train ...')
-    for i in range(config.START_EPOCH, config.MAX_EPOCH):
-        for batch, (anchor, pos, neg) in enumerate(dataset):
-            a_f, p_f, n_f = model(anchor, pos, neg)
+    avgloss = 0
+    for epoch in range(config.START_EPOCH, config.MAX_EPOCH):
+        for batch, imgs in enumerate(dataset):
+            with tf.GradientTape as tape:
+                fts = model(imgs)
+                loss = criterion(fts)
+                avgloss += loss
+            grads = tape.gradient(loss, model.trainable_variables)
+            optimizer.apply_gradients(zip(grads, model.trainable_variables))
+            if (batch+1) % config.LOG_EPOCH:
+                avgloss = avgloss / config.LOG_EPOCH
+                print(f'max_epoch: %3d' % config.MAX_EPOCH + ',[epoch:%4d/' % (epoch + config.START_EPOCH)
+                      + '[Loss:%.4f' % (avgloss))
+        scheduler.__call__(step=epoch)
 
 
 def main():
     # data
-    Generator = generator()
     dataset = tf.data.Dataset.from_generator(
-        generator=Generator,
-        output_types=(tf.float32, tf.float32, tf.float32)
+        generator=generatorS,
+        output_types=(tf.float32)
     )
     # model
     model = Model()
@@ -41,7 +51,7 @@ def main():
     train(
         dataset=dataset,
         model=model,
-        loss=loss,
+        criterion=loss,
         optimizer=optimizer,
         scheduler=scheduler
     )
