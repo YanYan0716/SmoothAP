@@ -9,7 +9,7 @@ import numpy as np
 import config
 
 
-class Model(tf.Module):
+class Model(keras.Model):
     def __init__(self):
         super(Model, self).__init__()
         self.base_model = keras.applications.ResNet50(

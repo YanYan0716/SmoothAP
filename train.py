@@ -1,4 +1,5 @@
 import os
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 import tensorflow as tf
@@ -21,10 +22,11 @@ def train(dataset, model, criterion, optimizer, scheduler):
                 avgloss += loss
             grads = tape.gradient(loss, model.trainable_variables)
             optimizer.apply_gradients(zip(grads, model.trainable_variables))
-            if (batch+1) % config.LOG_EPOCH:
+            if (batch + 1) % config.LOG_EPOCH:
                 avgloss = avgloss / config.LOG_EPOCH
                 print(f'max_epoch: %3d' % config.MAX_EPOCH + ',[epoch:%4d/' % (epoch + config.START_EPOCH)
                       + '[Loss:%.4f' % (avgloss))
+                avgloss = 0
         scheduler.__call__(step=epoch)
 
 
@@ -32,7 +34,7 @@ def main():
     # data
     dataset = tf.data.Dataset.from_generator(
         generator=generatorS,
-        output_types=(tf.float32)
+        output_types=tf.float32
     )
     # model
     model = Model()

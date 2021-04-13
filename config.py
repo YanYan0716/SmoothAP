@@ -23,7 +23,8 @@ LR = 0.01
 # loss
 ANNEAL = 0.01
 
-
+# test
+LOAD_PATH = './weights/best'
 K_VALS = [1, 4, 16, 32]
 FC_LR_MUL = 1
 
