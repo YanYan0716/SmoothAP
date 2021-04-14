@@ -33,3 +33,5 @@ if __name__ == '__main__':
     x = tf.convert_to_tensor(a)
     print(x.shape)
     net = Model()
+    y = net(x)
+    print(y.shape)
