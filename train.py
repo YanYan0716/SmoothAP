@@ -51,7 +51,8 @@ def main():
     # loss = smoothAP
     a = np.random.normal(size=(64, 224, 224, 3))
     x = tf.convert_to_tensor(a)
-    y = net(x)
+    for i in range(0, 100):
+        y = net(x)
     print(y.shape)
 
     # training
