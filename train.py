@@ -52,14 +52,19 @@ def main():
     )
     # loss
     loss = smoothAP
+
+    a = np.random.normal(size=(64, 224, 224, 3))
+    x = tf.convert_to_tensor(a)
+    y = model(x)
+
     # training
-    train(
-        dataset=dataset,
-        model=model,
-        criterion=loss,
-        optimizer=optimizer,
-        scheduler=scheduler
-    )
+    # train(
+    #     dataset=dataset,
+    #     model=model,
+    #     criterion=loss,
+    #     optimizer=optimizer,
+    #     scheduler=scheduler
+    # )
 
 
 if __name__ == '__main__':
