@@ -19,6 +19,7 @@ def train(dataset, model, criterion, optimizer, scheduler):
             print(imgs.shape)
             with tf.GradientTape as tape:
                 fts = model(imgs)
+                print(fts.shape)
                 loss = criterion(fts)
                 avgloss += loss
                 print(loss)
