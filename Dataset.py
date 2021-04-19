@@ -107,6 +107,7 @@ def testGenerator():
     for i in range(1):
         for batch, img in enumerate(dataset):
             print(batch, img.shape)
+            print(type(img))
 
 
 if __name__ == '__main__':
