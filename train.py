@@ -16,12 +16,9 @@ def train(dataset, model, criterion, optimizer, scheduler):
     print('train ...')
     avgloss = 0
     for epoch in range(config.START_EPOCH, config.MAX_EPOCH):
-        # for batch, imgs in enumerate(dataset):
-        if True:
-            a = np.random.normal(size=(64, 224, 224, 3))
-            x = tf.convert_to_tensor(a)
+        for batch, imgs in enumerate(dataset):
             with tf.GradientTape() as tape:
-                fts = model(x)
+                fts = model(imgs)
                 print(fts.shape)
                 loss = criterion(fts)
                 avgloss += loss
