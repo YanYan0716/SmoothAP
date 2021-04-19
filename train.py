@@ -47,7 +47,7 @@ def main():
         decay_rate=0.1,
     )
     # loss
-    loss = smoothAP()
+    loss = smoothAP
 
     # training
     train(
