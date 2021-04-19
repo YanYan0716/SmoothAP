@@ -19,16 +19,16 @@ def train(dataset, model, criterion, optimizer, scheduler):
         for batch, imgs in enumerate(dataset):
             with tf.GradientTape() as tape:
                 fts = model(imgs)
-                loss = criterion(fts)
-                avgloss += loss
-            grads = tape.gradient(loss, model.trainable_variables)
-            optimizer.apply_gradients(zip(grads, model.trainable_variables))
-            if (batch + 1) % config.LOG_EPOCH:
-                avgloss = avgloss / config.LOG_EPOCH
-                print(f'max_epoch: %3d' % config.MAX_EPOCH + ',[epoch:%4d/' % (epoch + config.START_EPOCH)
-                      + '[Loss:%.4f' % (avgloss))
-                avgloss = 0
-        scheduler.__call__(step=epoch)
+        #         loss = criterion(fts)
+        #         avgloss += loss
+        #     grads = tape.gradient(loss, model.trainable_variables)
+        #     optimizer.apply_gradients(zip(grads, model.trainable_variables))
+        #     if (batch + 1) % config.LOG_EPOCH:
+        #         avgloss = avgloss / config.LOG_EPOCH
+        #         print(f'max_epoch: %3d' % config.MAX_EPOCH + ',[epoch:%4d/' % (epoch + config.START_EPOCH)
+        #               + '[Loss:%.4f' % (avgloss))
+        #         avgloss = 0
+        # scheduler.__call__(step=epoch)
 
 
 def main():
@@ -38,7 +38,7 @@ def main():
         output_types=tf.float32
     )
     # model
-    net = Model().model()
+    model = Model().model()
     # optim
     optimizer = keras.optimizers.Adam(lr=config.LR)
     # scheduler
@@ -49,20 +49,14 @@ def main():
     )
     # loss
     loss = smoothAP
-    a = np.random.normal(size=(64, 224, 224, 3))
-    x = tf.convert_to_tensor(a)
-    for i in range(0, 100):
-        y = net(x)
-    print(y.shape)
-
     # training
-    # train(
-    #     dataset=dataset,
-    #     model=model,
-    #     criterion=loss,
-    #     optimizer=optimizer,
-    #     scheduler=scheduler
-    # )
+    train(
+        dataset=dataset,
+        model=model,
+        criterion=loss,
+        optimizer=optimizer,
+        scheduler=scheduler
+    )
 
 
 if __name__ == '__main__':
