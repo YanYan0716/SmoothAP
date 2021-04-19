@@ -20,7 +20,7 @@ def train(dataset, model, criterion, optimizer, scheduler):
         if True:
             a = np.random.normal(size=(64, 224, 224, 3))
             x = tf.convert_to_tensor(a)
-            with tf.GradientTape as tape:
+            with tf.GradientTape() as tape:
                 fts = model(x)
                 print(fts.shape)
                 loss = criterion(fts)
