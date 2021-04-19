@@ -53,9 +53,10 @@ def main():
     # # loss
     # loss = smoothAP
 
-    a = np.random.normal(size=(64, 224, 224, 3))
-    x = tf.convert_to_tensor(a)
-    y = model(x)
+    for i in range(100):
+        a = np.random.normal(size=(64, 224, 224, 3))
+        x = tf.convert_to_tensor(a)
+        y = model(x)
 
     # training
     # train(
