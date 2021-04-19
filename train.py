@@ -40,7 +40,7 @@ def main():
         output_types=tf.float32
     )
     # model
-    model = Model()
+    model = Model().model()
     # optim
     optimizer = keras.optimizers.Adam(lr=config.LR)
     # scheduler

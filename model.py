@@ -22,16 +22,20 @@ class Model(keras.Model):
             activation=keras.activations.relu,
         )
 
-    def __call__(self, x):
+    def call(self, x):
         y = self.base_model(x)
         y = self.lase_linear(y)
         return y
+
+    def model(self):
+        input = keras.Input(shape=(224, 224, 3), dtype=tf.float32)
+        return keras.Model(inputs=input, outputs=self.call(input))
 
 
 if __name__ == '__main__':
     a = np.random.normal(size=(3, 224, 224, 3))
     x = tf.convert_to_tensor(a)
     print(x.shape)
-    net = Model()
+    net = Model().model()
     y = net(x)
     print(y.shape)
