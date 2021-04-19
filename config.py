@@ -2,7 +2,7 @@ import tensorflow as tf
 AUTOTUNE = tf.data.experimental.AUTOTUNE
 
 # dataset
-ROOT_DIR = 'D:\\algorithm\\CUB_200_2011\\images\\'
+ROOT_DIR = '../input/'
 IMG_DIR = 'D:\\algorithm\\CUB_200_2011\\aaa.csv'
 BATCH_SIZE = 64
 IMG_SIZE = 256
