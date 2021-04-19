@@ -88,7 +88,7 @@ def generatorS():
             sample_imgs = img_dict[img_label]
             for j in range(0, config.SAMPLE_PER_CLASS):
                 sample_index = np.random.randint(0, len(sample_imgs))
-                sample_dir = config.ROOT_DIR+sample_imgs[sample_index]
+                sample_dir = os.path.join(config.ROOT_DIR, sample_imgs[sample_index])
                 sample_img = cv2.imread(sample_dir)
                 sample_img = orgAug(sample_img)
                 imgs.append(sample_img)
