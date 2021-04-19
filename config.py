@@ -2,12 +2,13 @@ import tensorflow as tf
 AUTOTUNE = tf.data.experimental.AUTOTUNE
 
 # dataset
-ROOT_DIR = '../input/'
-IMG_DIR = 'D:\\algorithm\\CUB_200_2011\\aaa.csv'
+ROOT_DIR = '../input/cub-200-2011/CUB_200_2011/images'
+IMG_DIR = '../input/cub-200-2011/CUB_200_2011/train.csv'
 BATCH_SIZE = 64
 IMG_SIZE = 256
 CROP_SIZE = 224
 SAMPLE_PER_CLASS = 4
+N_CLASSES = 10
 
 # model
 EMBED_DIM = 256

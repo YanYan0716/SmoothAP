@@ -3,6 +3,7 @@ import pandas as pd
 import cv2
 from sklearn.cluster import KMeans
 from sklearn import metrics
+import numpy as np
 # from sklearn import met
 
 from model import Model
@@ -26,20 +27,22 @@ def test(model, imgsPath):
     for imgpath in imgsPath:
         img = readImg(imgpath)
         img = tf.expand_dims(img, axis=0)
-        img_fts = model(img)
-        imgs_fts.append(img_fts)
-        print(img_fts.shape)
-        break
-        # imgs_fts.append(img_fts)
+        img_ft = model(img)
+        imgs_fts.append(img_ft)
 
-    kmeans = KMeans(n_clusters=100, random_state=0).fit(imgs_fts)
+    imgs_fts = np.vstack(imgs_fts).astype(np.float32)
+    kmeans = KMeans(n_clusters=2, random_state=0).fit(imgs_fts)
     model_generated_cluster_labels = kmeans.labels_
-    computed_cenroids = kmeans.cluster_centers_
-
-    NMI = metrics.cluster.normalized_mutual_info_score(
-        model_generated_cluster_labels.reshape(-1),
-        target_labels
-    )
+    computed_centroids = kmeans.cluster_centers_
+    print(model_generated_cluster_labels)
+    print(computed_centroids.shape)
+    # model_generated_cluster_labels = kmeans.labels_
+    # computed_cenroids = kmeans.cluster_centers_
+    #
+    # NMI = metrics.cluster.normalized_mutual_info_score(
+    #     model_generated_cluster_labels.reshape(-1),
+    #     target_labels
+    # )
 
     return 0
 
