@@ -33,25 +33,25 @@ def train(dataset, model, criterion, optimizer, scheduler):
 
 def main():
     # data
-    dataset = tf.data.Dataset.from_generator(
-        generator=generatorS,
-        output_types=tf.float32
-    )
+    # dataset = tf.data.Dataset.from_generator(
+    #     generator=generatorS,
+    #     output_types=tf.float32
+    # )
     # model
-    model = Model().model()
-    # optim
-    optimizer = keras.optimizers.Adam(lr=config.LR)
-    # scheduler
-    scheduler = keras.optimizers.schedules.ExponentialDecay(
-        initial_learning_rate=config.LR,
-        decay_steps=5,
-        decay_rate=0.1,
-    )
-    # loss
-    loss = smoothAP
+    net = Model().model()
+    # # optim
+    # optimizer = keras.optimizers.Adam(lr=config.LR)
+    # # scheduler
+    # scheduler = keras.optimizers.schedules.ExponentialDecay(
+    #     initial_learning_rate=config.LR,
+    #     decay_steps=5,
+    #     decay_rate=0.1,
+    # )
+    # # loss
+    # loss = smoothAP
     a = np.random.normal(size=(64, 224, 224, 3))
     x = tf.convert_to_tensor(a)
-    y = model(x)
+    y = net(x)
     print(y.shape)
 
     # training
