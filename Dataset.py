@@ -105,10 +105,9 @@ def testGenerator():
         generator=generatorS,
         output_types=(tf.float32),
     )
-    for i in range(1):
+    for i in range(2):
         for batch, img in enumerate(dataset):
             print(batch, img.shape)
-            print(type(img))
 
 
 if __name__ == '__main__':
