@@ -43,15 +43,15 @@ def main():
     # model
     model = Model().model()
     # optim
-    # optimizer = keras.optimizers.Adam(lr=config.LR)
-    # # scheduler
-    # scheduler = keras.optimizers.schedules.ExponentialDecay(
-    #     initial_learning_rate=config.LR,
-    #     decay_steps=5,
-    #     decay_rate=0.1,
-    # )
-    # # loss
-    # loss = smoothAP
+    optimizer = keras.optimizers.Adam(lr=config.LR)
+    # scheduler
+    scheduler = keras.optimizers.schedules.ExponentialDecay(
+        initial_learning_rate=config.LR,
+        decay_steps=5,
+        decay_rate=0.1,
+    )
+    # loss
+    loss = smoothAP
 
     for i in range(100):
         a = np.random.normal(size=(64, 224, 224, 3))
