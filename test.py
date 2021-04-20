@@ -46,6 +46,10 @@ def test(model, imgsPath):
     k_closest_points = squareform(pdist(imgs_fts)).argsort(1)[:, :int(np.max(config.K_VALS)+1)]
     k_closest_classes = target_labels.reshape(-1)
 
+    recall_all_k = []
+    for k in config.K_VALS:
+        recall_all_k = np.sum([1 for ])
+
     return 0
 
 

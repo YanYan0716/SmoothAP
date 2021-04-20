@@ -23,11 +23,11 @@ def train(dataset, model, criterion, optimizer, scheduler):
             print(batch, imgs.shape)
             with tf.GradientTape() as tape:
                 fts = model(imgs)
-                loss = criterion(fts)
-                print(loss)
-                avgloss += loss
-            grads = tape.gradient(loss, model.trainable_variables)
-            optimizer.apply_gradients(zip(grads, model.trainable_variables))
+            #     loss = criterion(fts)
+            #     print(loss)
+            #     avgloss += loss
+            # grads = tape.gradient(loss, model.trainable_variables)
+            # optimizer.apply_gradients(zip(grads, model.trainable_variables))
             # if (batch + 1) % config.LOG_EPOCH == 0:
             #     avgloss = avgloss / config.LOG_EPOCH
             #     if BESTloss > avgloss:
