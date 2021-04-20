@@ -21,8 +21,10 @@ def train(dataset, model, criterion, optimizer, scheduler):
         # x = tf.convert_to_tensor(a)
         # y = model(x)
         for batch, imgs in enumerate(dataset):
+            print(imgs.shape)
             with tf.GradientTape() as tape:
                 fts = model(imgs)
+                print('wwwwwwwwww')
         #         loss = criterion(fts)
         #         avgloss += loss
         #     grads = tape.gradient(loss, model.trainable_variables)
