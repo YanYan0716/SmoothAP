@@ -21,7 +21,7 @@ SAVE_PATH = './weights/W'
 
 
 # optimizer
-LR = 0.01
+LR = 0.001
 
 # loss
 ANNEAL = 0.01
