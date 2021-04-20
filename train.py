@@ -21,8 +21,8 @@ def train(dataset, model, criterion, optimizer, scheduler):
         print('*************')
         for batch, imgs in enumerate(dataset):
             print(batch, imgs.shape)
-            # with tf.GradientTape() as tape:
-            #     fts = model(imgs)
+            with tf.GradientTape() as tape:
+                fts = model(imgs)
             #     loss = criterion(fts)
             #     print(loss)
             #     avgloss += loss
