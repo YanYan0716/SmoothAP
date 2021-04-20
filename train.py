@@ -15,10 +15,15 @@ from smoothAP import smoothAP
 def train(dataset, model, criterion, optimizer, scheduler):
     print('train ...')
     avgloss = 0
-    for epoch in range(config.START_EPOCH, config.MAX_EPOCH):
+    for i in range(100):
         a = np.random.normal(size=(64, 224, 224, 3))
         x = tf.convert_to_tensor(a)
         y = model(x)
+
+    # for epoch in range(config.START_EPOCH, config.MAX_EPOCH):
+    #     a = np.random.normal(size=(64, 224, 224, 3))
+    #     x = tf.convert_to_tensor(a)
+    #     y = model(x)
         # for batch, imgs in enumerate(dataset):
         #     with tf.GradientTape() as tape:
         #         fts = model(imgs)
@@ -53,19 +58,19 @@ def main():
     # loss
     loss = smoothAP
 
-    for i in range(100):
-        a = np.random.normal(size=(64, 224, 224, 3))
-        x = tf.convert_to_tensor(a)
-        y = model(x)
+    # for i in range(100):
+    #     a = np.random.normal(size=(64, 224, 224, 3))
+    #     x = tf.convert_to_tensor(a)
+    #     y = model(x)
 
     # training
-    # train(
-    #     dataset=dataset,
-    #     model=model,
-    #     criterion=loss,
-    #     optimizer=optimizer,
-    #     scheduler=scheduler
-    # )
+    train(
+        dataset=dataset,
+        model=model,
+        criterion=loss,
+        optimizer=optimizer,
+        scheduler=scheduler
+    )
 
 
 if __name__ == '__main__':
