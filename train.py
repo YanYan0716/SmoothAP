@@ -21,14 +21,13 @@ def train(dataset, model, criterion, optimizer, scheduler):
         # x = tf.convert_to_tensor(a)
         # y = model(x)
         for batch, imgs in enumerate(dataset):
-            print(imgs.shape)
             with tf.GradientTape() as tape:
                 fts = model(imgs)
-                print('wwwwwwwwww')
-        #         loss = criterion(fts)
-        #         avgloss += loss
-        #     grads = tape.gradient(loss, model.trainable_variables)
-        #     optimizer.apply_gradients(zip(grads, model.trainable_variables))
+                loss = criterion(fts)
+                avgloss += loss
+                print(loss)
+            grads = tape.gradient(loss, model.trainable_variables)
+            optimizer.apply_gradients(zip(grads, model.trainable_variables))
         #     if (batch + 1) % config.LOG_EPOCH:
         #         avgloss = avgloss / config.LOG_EPOCH
         #         print(f'max_epoch: %3d' % config.MAX_EPOCH + ',[epoch:%4d/' % (epoch + config.START_EPOCH)
