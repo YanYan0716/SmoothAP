@@ -96,8 +96,9 @@ def generatorS():
                 yield tf.cast(tf.convert_to_tensor(imgs), dtype=tf.float32)
                 imgs = []
         except:
+            print(i, img_dict[imgs_label[i]], )
             print('except ..................')
-            continue
+            break
 
 
 def testGenerator():
