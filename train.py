@@ -32,7 +32,7 @@ def train(dataset, model, criterion, optimizer, scheduler):
                 print(f'max_epoch: %3d' % config.MAX_EPOCH + ',[epoch:%4d/' % (epoch + config.START_EPOCH)
                       + '[Loss:%.4f' % (avgloss) + '/ Best loss: %.4f' % (BESTloss))
                 avgloss = 0
-        # scheduler.__call__(step=epoch)
+        scheduler.__call__(step=epoch)
 
 
 def main():
