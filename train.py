@@ -15,25 +15,23 @@ from smoothAP import smoothAP
 def train(dataset, model, criterion, optimizer, scheduler):
     print('train ...')
     avgloss = 0
-
+    BESTloss = 100
     for epoch in range(config.START_EPOCH, config.MAX_EPOCH):
-        # a = np.random.normal(size=(64, 224, 224, 3))
-        # x = tf.convert_to_tensor(a)
-        # y = model(x)
         for batch, imgs in enumerate(dataset):
             with tf.GradientTape() as tape:
                 fts = model(imgs)
                 loss = criterion(fts)
                 avgloss += loss
-                print(loss)
             grads = tape.gradient(loss, model.trainable_variables)
             optimizer.apply_gradients(zip(grads, model.trainable_variables))
-        #     if (batch + 1) % config.LOG_EPOCH:
-        #         avgloss = avgloss / config.LOG_EPOCH
-        #         print(f'max_epoch: %3d' % config.MAX_EPOCH + ',[epoch:%4d/' % (epoch + config.START_EPOCH)
-        #               + '[Loss:%.4f' % (avgloss))
-        #         avgloss = 0
-        # scheduler.__call__(step=epoch)
+            if (batch + 1) % config.LOG_EPOCH:
+                avgloss = avgloss / config.LOG_EPOCH
+                if BESTloss > avgloss:
+                    model.save_weights(config.SAVE_PATH)
+                print(f'max_epoch: %3d' % config.MAX_EPOCH + ',[epoch:%4d/' % (epoch + config.START_EPOCH)
+                      + '[Loss:%.4f' % (avgloss) + '/ Best loss: %.4f' % (BESTloss))
+                avgloss = 0
+        scheduler.__call__(step=epoch)
 
 
 def main():
