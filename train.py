@@ -30,10 +30,10 @@ def train(dataset, model, criterion, optimizer, scheduler):
                 if BESTloss > avgloss:
                     model.save_weights(config.SAVE_PATH)
                     BESTloss = avgloss
-                print(f'max_epoch: %3d' % config.MAX_EPOCH + ',[epoch:%4d/' % (epoch + config.START_EPOCH)
-                      + '[Loss:%.4f' % (avgloss) + '/ Best loss: %.4f' % (BESTloss))
+                print(f'[max_epoch: %3d]' % config.MAX_EPOCH + ',[epoch:%3d/' % (epoch + config.START_EPOCH)
+                        + 'batchsize: %3d]' % batch + '[Loss:%.4f' % (avgloss) + '/ Best loss: %.4f]' % (BESTloss))
                 avgloss = 0
-        scheduler.__call__(step=epoch)
+        # scheduler.__call__(step=epoch)
 
 
 def main():
