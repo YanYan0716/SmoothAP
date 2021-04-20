@@ -24,14 +24,15 @@ def train(dataset, model, criterion, optimizer, scheduler):
                 loss = criterion(fts)
                 avgloss += loss
             grads = tape.gradient(loss, model.trainable_variables)
+            print(grads)
             optimizer.apply_gradients(zip(grads, model.trainable_variables))
-            if (batch + 1) % config.LOG_EPOCH:
+            if (batch + 1) % config.LOG_EPOCH == 0:
                 avgloss = avgloss / config.LOG_EPOCH
                 if BESTloss > avgloss:
                     model.save_weights(config.SAVE_PATH)
                     BESTloss = avgloss
                 print(f'[max_epoch: %3d]' % config.MAX_EPOCH + ',[epoch:%3d/' % (epoch + config.START_EPOCH)
-                        + 'batchsize: %3d]' % batch + '[Loss:%.4f' % (avgloss) + '/ Best loss: %.4f]' % (BESTloss))
+                        + 'idx: %3d]' % batch + '[Loss:%.4f' % (avgloss) + '/ Best loss: %.4f]' % (BESTloss))
                 avgloss = 0
         # scheduler.__call__(step=epoch)
 
