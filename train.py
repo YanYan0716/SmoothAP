@@ -20,11 +20,11 @@ def train(dataset, model, criterion, optimizer, scheduler):
     for epoch in range(config.START_EPOCH, config.MAX_EPOCH):
         print('*************')
         for batch, imgs in enumerate(dataset):
-            # print(imgs.shape)
+            print(batch, imgs.shape)
             with tf.GradientTape() as tape:
                 fts = model(imgs)
                 loss = criterion(fts)
-                print(batch, loss)
+                print(loss)
                 avgloss += loss
             grads = tape.gradient(loss, model.trainable_variables)
             optimizer.apply_gradients(zip(grads, model.trainable_variables))
