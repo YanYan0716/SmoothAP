@@ -36,10 +36,10 @@ def train(dataset, model, criterion, optimizer, scheduler):
 
 def main():
     # data
-    # dataset = tf.data.Dataset.from_generator(
-    #     generator=generatorS,
-    #     output_types=tf.float32
-    # )
+    dataset = tf.data.Dataset.from_generator(
+        generator=generatorS,
+        output_types=tf.float32
+    )
     # model
     model = Model().model()
     # optim
