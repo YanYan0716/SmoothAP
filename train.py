@@ -19,7 +19,7 @@ def train(dataset, model, criterion, optimizer, scheduler):
     for epoch in range(config.START_EPOCH, config.MAX_EPOCH):
         for batch, imgs in enumerate(dataset):
             with tf.GradientTape() as tape:
-                fts = model(imgs)
+                fts = model(imgs, trainable=True)
                 loss = criterion(fts)
                 avgloss += loss
             grads = tape.gradient(loss, model.trainable_variables)
@@ -28,10 +28,11 @@ def train(dataset, model, criterion, optimizer, scheduler):
                 avgloss = avgloss / config.LOG_EPOCH
                 if BESTloss > avgloss:
                     model.save_weights(config.SAVE_PATH)
+                    BESTloss = avgloss
                 print(f'max_epoch: %3d' % config.MAX_EPOCH + ',[epoch:%4d/' % (epoch + config.START_EPOCH)
                       + '[Loss:%.4f' % (avgloss) + '/ Best loss: %.4f' % (BESTloss))
                 avgloss = 0
-        scheduler.__call__(step=epoch)
+        # scheduler.__call__(step=epoch)
 
 
 def main():
@@ -52,11 +53,6 @@ def main():
     )
     # loss
     loss = smoothAP
-
-    # for i in range(100):
-    #     a = np.random.normal(size=(64, 224, 224, 3))
-    #     x = tf.convert_to_tensor(a)
-    #     y = model(x)
 
     # training
     train(
