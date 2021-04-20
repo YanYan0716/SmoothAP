@@ -16,7 +16,7 @@ def train(dataset, model, criterion, optimizer, scheduler):
     print('train ...')
     avgloss = 0
     BESTloss = 100
-    a = np.random.normal(size=(3, 224, 224, 3))
+    a = np.random.normal(size=(64, 224, 224, 3))
     x = tf.convert_to_tensor(a)
     for i in range(100):
         y = model(x)
