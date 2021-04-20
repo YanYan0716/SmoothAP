@@ -18,9 +18,7 @@ def train(dataset, model, criterion, optimizer, scheduler):
     BESTloss = 100
 
     for epoch in range(config.START_EPOCH, config.MAX_EPOCH):
-        print('*************')
         for batch, imgs in enumerate(dataset):
-            print(batch, imgs.shape)
             with tf.GradientTape() as tape:
                 fts = model(imgs)
                 loss = criterion(fts)
