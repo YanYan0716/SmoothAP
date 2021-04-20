@@ -24,8 +24,6 @@ def train(dataset, model, criterion, optimizer, scheduler):
                 loss = criterion(fts)
                 avgloss += loss
             grads = tape.gradient(loss, model.trainable_variables)
-            print(grads[0][0])
-            print('*****************')
             optimizer.apply_gradients(zip(grads, model.trainable_variables))
             if (batch + 1) % config.LOG_EPOCH == 0:
                 avgloss = avgloss / config.LOG_EPOCH
