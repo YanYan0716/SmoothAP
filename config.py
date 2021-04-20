@@ -16,7 +16,7 @@ EMBED_DIM = 256
 # train
 MAX_EPOCH = 100
 START_EPOCH = 0
-LOG_EPOCH = 1
+LOG_EPOCH = 6
 SAVE_PATH = './weights/W'
 
 
