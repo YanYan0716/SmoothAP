@@ -4,6 +4,7 @@ import cv2
 from sklearn.cluster import KMeans
 from sklearn import metrics
 import numpy as np
+from scipy.spatial.distance import squareform, pdist
 # from sklearn import met
 
 from model import Model
@@ -36,13 +37,14 @@ def test(model, imgsPath):
     computed_centroids = kmeans.cluster_centers_
     print(model_generated_cluster_labels)
     print(computed_centroids.shape)
-    # model_generated_cluster_labels = kmeans.labels_
-    # computed_cenroids = kmeans.cluster_centers_
-    #
-    # NMI = metrics.cluster.normalized_mutual_info_score(
-    #     model_generated_cluster_labels.reshape(-1),
-    #     target_labels
-    # )
+
+    NMI = metrics.cluster.normalized_mutual_info_score(
+        model_generated_cluster_labels.reshape(-1),
+        target_labels.reshape(-1)
+    )
+
+    k_closest_points = squareform(pdist(imgs_fts)).argsort(1)[:, :int(np.max(config.K_VALS)+1)]
+    k_closest_classes = target_labels.reshape(-1)
 
     return 0
 

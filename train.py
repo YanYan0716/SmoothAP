@@ -18,22 +18,24 @@ def train(dataset, model, criterion, optimizer, scheduler):
     BESTloss = 100
 
     for epoch in range(config.START_EPOCH, config.MAX_EPOCH):
+        print('*************')
         for batch, imgs in enumerate(dataset):
-            with tf.GradientTape() as tape:
-                fts = model(imgs)
-                loss = criterion(fts)
-                avgloss += loss
-            grads = tape.gradient(loss, model.trainable_variables)
-            optimizer.apply_gradients(zip(grads, model.trainable_variables))
-            if (batch + 1) % config.LOG_EPOCH == 0:
-                avgloss = avgloss / config.LOG_EPOCH
-                if BESTloss > avgloss:
-                    model.save_weights(config.SAVE_PATH)
-                    BESTloss = avgloss
-                    print(f'saved model to {config.SAVE_PATH}')
-                print(f'[max_epoch: %3d]' % config.MAX_EPOCH + ',[epoch:%3d/' % (epoch + config.START_EPOCH)
-                        + 'idx: %3d]' % batch + '[Loss:%.4f' % (avgloss) + '/ Best loss: %.4f]' % (BESTloss))
-                avgloss = 0
+            print(imgs.shape)
+            # with tf.GradientTape() as tape:
+            #     fts = model(imgs)
+            #     loss = criterion(fts)
+            #     avgloss += loss
+            # grads = tape.gradient(loss, model.trainable_variables)
+            # optimizer.apply_gradients(zip(grads, model.trainable_variables))
+            # if (batch + 1) % config.LOG_EPOCH == 0:
+            #     avgloss = avgloss / config.LOG_EPOCH
+            #     if BESTloss > avgloss:
+            #         model.save_weights(config.SAVE_PATH)
+            #         BESTloss = avgloss
+            #         print(f'saved model to {config.SAVE_PATH}')
+            #     print(f'[max_epoch: %3d]' % config.MAX_EPOCH + ',[epoch:%3d/' % (epoch + config.START_EPOCH)
+            #             + 'idx: %3d]' % batch + '[Loss:%.4f' % (avgloss) + '/ Best loss: %.4f]' % (BESTloss))
+            #     avgloss = 0
         # scheduler.__call__(step=epoch)
 
 
