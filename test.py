@@ -23,11 +23,28 @@ def readImg(imgPath):
     return img
 
 
-def f1_score(model_generated_cluster_labels, target_labels, feature_coll, computed_centroids):
+def f1_score(model_generated_cluster_labels, target_labels, imgsFts, computed_centroids):
+    """
+    多分类问题中的衡量指标，包括准确率和召回率，认为准确率和召回率同等重要
+    公式：f1=2*(precision*recall)/(precision+recall) 数值越大越好 最大值为1，最小值为0
+    :param model_generated_cluster_labels: 聚类后的标签
+    :param target_labels: 真实标签
+    :param feature_coll: 特征向量
+    :param imgsFts: 聚类的中心向量
+    :return:
+    """
+    d = np.zeros(len(imgsFts))
+    for i in range(len(imgsFts)):
     return 0
 
 
-def test(model, imgsPath):
+def test(model, imgsPath, imgsLabel):
+    """
+    :param model:
+    :param imgsPath:
+    :param imgsLabel:
+    :return:
+    """
     target_labels, imgs_fts = [], []
 
     for imgpath in imgsPath:
@@ -37,17 +54,20 @@ def test(model, imgsPath):
         imgs_fts.append(img_ft)
 
     imgs_fts = np.vstack(imgs_fts).astype(np.float32)
-    kmeans = KMeans(n_clusters=config.N_CLASSES, random_state=0).fit(imgs_fts)
-    model_generated_cluster_labels = kmeans.labels_
-    computed_centroids = kmeans.cluster_centers_
+    target_labels = np.hstack(imgsLabel).reshape(-1, 1)
 
-    NMI = metrics.cluster.normalized_mutual_info_score(
-        model_generated_cluster_labels.reshape(-1),
-        target_labels.reshape(-1)
-    )
+    # 使用kmeans对model的输出进行聚类
+    kmeans = KMeans(n_clusters=2, random_state=0).fit(imgs_fts)
+    model_generated_cluster_labels = kmeans.labels_  # 聚类后的标签
+    computed_centroids = kmeans.cluster_centers_  # 聚类后的类中心
 
-    k_closest_points = squareform(pdist(imgs_fts)).argsort(1)[:, :int(np.max(config.K_VALS)+1)]
-    k_closest_classes = target_labels.reshape(-1)[k_closest_points[:, 1:]]
+    # NMI = metrics.cluster.normalized_mutual_info_score(
+    #     model_generated_cluster_labels.reshape(-1),
+    #     target_labels.reshape(-1)
+    # )
+
+    k_closest_points = squareform(pdist(imgs_fts)).argsort(1)[:, :int(np.max(config.K_VALS)+1)]  # 得到距离最近的前k个数的index
+    k_closest_classes = target_labels.reshape(-1)[k_closest_points[:, 1:]]  #找到k_closet_points对应的类别
 
     recall_all_k = []
     for k in config.K_VALS:
@@ -55,20 +75,22 @@ def test(model, imgsPath):
                                if target in recalled_pred[:k]]) / len(target_labels)
         recall_all_k.append(recall_at_k)
 
+    # 计算f1 score
     F1 = f1_score(model_generated_cluster_labels, target_labels, imgs_fts, computed_centroids)
     return 0
 
 
 def main():
-    model = Model()
+    model = Model().model()
     # model.load_weights(filepath=config.LOAD_PATH)
     model.trainable = False
 
     # dataset
-    imgs_path = pd.read_csv('./label4000.csv')['name']
+    imgs_path = pd.read_csv('label4000.csv')['name']
+    imgs_label = pd.read_csv('label4000.csv')['label']
 
     # test
-    result = test(model, imgs_path)
+    result = test(model, imgs_path, imgs_label)
 
 
 if __name__ == '__main__':

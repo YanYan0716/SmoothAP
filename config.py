@@ -21,7 +21,7 @@ START_EPOCH = 0
 LOG_EPOCH = 10
 SAVE_PATH = './weights/'
 CONTINUE = True
-CONTINUE_PATH = ''
+CONTINUE_PATH = '../input/weights/W'
 
 
 # optimizer
