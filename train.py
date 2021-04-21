@@ -46,6 +46,7 @@ def main():
     # model
     model = Model().model()
     if config.CONTINUE:
+        print('loading weights ...')
         model.load_weights(config.CONTINUE_PATH)
     # optim
     optimizer = keras.optimizers.Adam(lr=config.LR)

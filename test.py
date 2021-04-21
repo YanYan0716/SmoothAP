@@ -35,15 +35,79 @@ def f1_score(model_generated_cluster_labels, target_labels, imgsFts, computed_ce
     """
     d = np.zeros(len(imgsFts))
     for i in range(len(imgsFts)):
-    return 0
+        d[i] = np.linalg.norm(imgsFts[i, :] - computed_centroids[model_generated_cluster_labels[i], :])
+
+    label_pred = np.zeros(len(imgsFts))
+    for i in np.unique(model_generated_cluster_labels):
+        index = np.where(model_generated_cluster_labels == i)[0]
+        ind = np.argmin(d[index])
+        cid = index[ind]
+        label_pred[index] = cid
+
+    N = len(target_labels)
+
+    # 找出有多少个类别
+    avali_labels = np.unique(target_labels)
+    n_labels = len(avali_labels)
+
+    # 计算真实类别分别属于每个预测类别的数量
+    count_cluster = np.zeros(n_labels)
+    for i in range(n_labels):
+        count_cluster[i] = len(np.where(target_labels == avali_labels[i])[0])
+
+    keys = np.unique(label_pred)
+    num_item = len(keys)
+    values = range(num_item)
+    item_map = dict()
+
+    for i in range(keys):
+        item_map.update([(keys[i], values[i])])
+
+    # 预测结果中每个类别的数目
+    count_item = np.zeros(num_item)
+    for i in range(len(target_labels)):
+        index = item_map[label_pred[i]]
+        count_item[index] = count_item[index] + 1
+
+    tp_fp = 0  # tp+fp
+    for k in range(n_labels):
+        if count_cluster[k] > 1:
+            tp_fp = tp_fp + comb(count_cluster[k], 2)
+
+    tp = 0  # tp
+    for k in range(n_labels):
+        member = np.where(target_labels == avali_labels[k])[0]
+        member_ids = label_pred[member]
+        count = np.zeros(num_item)
+        for j in range(len(member)):
+            index = item_map[member_ids[j]]
+            count[index] = count[index] + 1
+
+        for i in range(num_item):
+            if count[i] > 1:
+                tp = tp + comb(count[i], 2)
+    # fp
+    fp = tp_fp - tp
+    # fn
+    count = 0
+    for j in range(num_item):
+        if count_item[j] > 1:
+            count = count + comb(count_item[j], 2)
+    fn = count - tp
+    beta = 1
+    P = tp / (tp+fp)
+    R = tp / (tp+fn)
+    F1 = (beta*beta + 1) * P * R / (beta*beta*P+R)
+    return F1
 
 
 def test(model, imgsPath, imgsLabel):
     """
+
     :param model:
     :param imgsPath:
     :param imgsLabel:
-    :return:
+    :return: f1分数 召回率 特征向量
     """
     target_labels, imgs_fts = [], []
 
@@ -77,7 +141,7 @@ def test(model, imgsPath, imgsLabel):
 
     # 计算f1 score
     F1 = f1_score(model_generated_cluster_labels, target_labels, imgs_fts, computed_centroids)
-    return 0
+    return F1, recall_at_k, imgs_fts
 
 
 def main():
