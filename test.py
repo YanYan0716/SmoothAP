@@ -154,7 +154,10 @@ def main():
     imgs_label = pd.read_csv('label4000.csv')['label']
 
     # test
-    result = test(model, imgs_path, imgs_label)
+    f1, recall, imgfts = test(model, imgs_path, imgs_label)
+    print(f1)
+    # print(recall)
+    print(imgfts.shape)
 
 
 if __name__ == '__main__':
