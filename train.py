@@ -45,6 +45,8 @@ def main():
     )
     # model
     model = Model().model()
+    if config.CONTINUE:
+        model.load_weights(config.CONTINUE_PATH)
     # optim
     optimizer = keras.optimizers.Adam(lr=config.LR)
     # scheduler
