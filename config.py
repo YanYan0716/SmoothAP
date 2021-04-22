@@ -25,7 +25,7 @@ CONTINUE_PATH = '../input/weights/weights/W'
 
 
 # optimizer
-LR = 1e-6
+LR = 1e-7
 
 # loss
 ANNEAL = 0.01
